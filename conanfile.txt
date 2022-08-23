@@ -1,4 +1,5 @@
 [requires]
+fmt/9.0.0
 poco/1.12.2
 
 [generators]
