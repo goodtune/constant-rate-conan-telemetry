@@ -1,6 +1,9 @@
 [requires]
 fmt/9.0.0
+openssl/1.1.1q
+opentelemetry-cpp/1.4.1
 poco/1.12.2
+protobuf/3.21.4
 
 [generators]
 cmake
