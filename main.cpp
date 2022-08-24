@@ -54,6 +54,13 @@ auto received_attributes = resource.GetAttributes();
 auto always_on_sampler = std::unique_ptr<sdktrace::AlwaysOnSampler>(new sdktrace::AlwaysOnSampler);
 
 /*
+ * SDK configuration are shared between TracerProvider and all it’s Tracer instances through TracerContext.
+ */
+//auto tracer_context = std::make_shared<sdktrace::TracerContext>
+//        (std::move(simple_processor), resource, std::move(always_on_sampler));
+// FIXME: std::make_shared not resolving in CLion
+
+/*
  * TracerProvider instance holds the SDK configurations ( Span Processors, Samplers, Resource).
  * There is single global TracerProvider instance for an application, and it is created at the start of application.
  * There are two different mechanisms to create TraceProvider instance
@@ -62,9 +69,14 @@ auto always_on_sampler = std::unique_ptr<sdktrace::AlwaysOnSampler>(new sdktrace
  */
 auto tracer_provider = std::make_shared<sdktrace::TracerProvider>
         (std::move(simple_processor), resource, std::move(always_on_sampler));
+// FIXME: because tracer_context above isn't working, I can't use the first form.
+//opentelemetry::trace::Provider::SetTracerProvider(tracer_provider);
 
 
 int main(int argc, char **argv) {
+//    auto provider = opentelemetry::trace::Provider::GetTracerProvider();
+//    auto provider = opentelemetry::nostd::shared_ptr<sdktrace::TracerProvider>
+//            (std::move(simple_processor), resource, std::move(always_on_sampler));
     auto tracer = tracer_provider->GetTracer("foo_library", "1.0.0");
     auto span = tracer->StartSpan("ApplicationLifetime");
     auto scope = tracer->WithActiveSpan(span);
